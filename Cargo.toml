@@ -1,5 +1,5 @@
 [package]
-name = "ManBot"
+name = "manbot"
 version = "0.1.0"
 authors = ["Dustin Dawes <gu3st@dustindawes.com>"]
 edition = "2018"
