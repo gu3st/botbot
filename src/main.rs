@@ -13,7 +13,7 @@ struct Handler;
 impl EventHandler for Handler {
 
     async fn message(&self, ctx:Context, msg: Message){
-        if msg.content.trim() == "man" {
+        if msg.content.trim().to_lowercase() == "man" {
             let emote = ctx.http.get_emoji(788585865060155392, 791766387143081994).await.expect("Error fetching emote");
             let reaction = ReactionType::Custom {
                 animated: false,
