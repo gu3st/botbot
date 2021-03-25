@@ -1,7 +1,6 @@
 use serenity::async_trait;
 use serenity::client::{Client, Context, EventHandler};
 use serenity::model::channel::{Message, ReactionType};
-use serenity::model::id::{EmojiId};
 use regex::Regex;
 #[macro_use] extern crate lazy_static;
 
@@ -18,7 +17,7 @@ impl EventHandler for Handler {
 
     async fn message(&self, ctx:Context, msg: Message){
         lazy_static! {
-            static ref MANREGEX : Regex = Regex::new(r"(?i)[^A-z]?man[^A-z]").unwrap();
+            static ref MANREGEX: Regex = Regex::new(r"(?i)[^A-z]?man[^A-z]").unwrap();
         }
         if MANREGEX.is_match(msg.content.trim()){
             let emote = ctx.http.get_emoji(788585865060155392, 791766387143081994).await.expect("Error fetching emote");
