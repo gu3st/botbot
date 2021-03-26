@@ -18,9 +18,22 @@ impl EventHandler for Handler {
     async fn message(&self, ctx:Context, msg: Message){
         lazy_static! {
             static ref MANREGEX: Regex = Regex::new(r"(?i)\bman\b").unwrap();
+            static ref PERHAPSREGEX: Regex = Regex::new(r"(?i)\bperhaps\b").unwrap();
         }
         if MANREGEX.is_match(msg.content.trim()).unwrap(){
-            let emote = ctx.http.get_emoji(788585865060155392, 791766387143081994).await.expect("Error fetching emote");
+            let emote = ctx.http.get_emoji(86542971465396224, 824895253348876298).await.expect("Error fetching emote");
+            let reaction = ReactionType::Custom {
+                animated: false,
+                id: emote.id,
+                name: Some(emote.name)
+            };
+            if let Err(why) = msg.react(ctx.http, reaction).await{
+                println!("An error occurred while reacting: {:?}", why)
+            }
+        }
+
+        if PERHAPSREGEX.is_match(msg.content.trim()).unwrap(){
+            let emote = ctx.http.get_emoji(86542971465396224, 824895866560446474).await.expect("Error fetching emote");
             let reaction = ReactionType::Custom {
                 animated: false,
                 id: emote.id,
