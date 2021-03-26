@@ -45,7 +45,7 @@ impl EventHandler for Handler {
                 println!("An error occurred while reacting: {:?}", why)
             }
         }
-        if OOTREGEX.is_match(msg.content.trim()).unwrap() && Utc::now().with_timezone(&FixedOffset::west(5*3600)).format("%a") == "Thu" {
+        if OOTREGEX.is_match(msg.content.trim()).unwrap() && Utc::now().with_timezone(&FixedOffset::west(5*3600)).format("%a").to_string() == "Thu" {
             if let Err(why) = msg.reply(&ctx.http, "https://tenor.com/bq8xu.gif").await{
                 println!("An error occurred while reacting: {:?}", why)
             }
