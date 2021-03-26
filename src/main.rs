@@ -1,8 +1,8 @@
 use serenity::async_trait;
 use serenity::client::{Client, Context, EventHandler};
 use serenity::model::channel::{Message, ReactionType};
-use regex::Regex;
-#[macro_use] extern crate lazy_static;
+use fancy_regex::Regex;
+use lazy_static::lazy_static;
 
 use std::env;
 use serenity::client::bridge::gateway::GatewayIntents;
@@ -17,9 +17,9 @@ impl EventHandler for Handler {
 
     async fn message(&self, ctx:Context, msg: Message){
         lazy_static! {
-            static ref MANREGEX: Regex = Regex::new(r"(?i)[^A-z]?man[^A-z]").unwrap();
+            static ref MANREGEX: Regex = Regex::new(r"(?i)\bman\b").unwrap();
         }
-        if MANREGEX.is_match(msg.content.trim()){
+        if MANREGEX.is_match(msg.content.trim()).unwrap(){
             let emote = ctx.http.get_emoji(788585865060155392, 791766387143081994).await.expect("Error fetching emote");
             let reaction = ReactionType::Custom {
                 animated: false,
@@ -33,6 +33,7 @@ impl EventHandler for Handler {
     }
 
 }
+
 
 #[tokio::main]
 async fn main() {
