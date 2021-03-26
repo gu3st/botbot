@@ -1,6 +1,7 @@
 use serenity::async_trait;
 use serenity::client::{Client, Context, EventHandler};
 use serenity::model::channel::{Message, ReactionType};
+use chrono::{FixedOffset, Utc};
 use fancy_regex::Regex;
 use lazy_static::lazy_static;
 
@@ -19,6 +20,7 @@ impl EventHandler for Handler {
         lazy_static! {
             static ref MANREGEX: Regex = Regex::new(r"(?i)\bman\b").unwrap();
             static ref PERHAPSREGEX: Regex = Regex::new(r"(?i)\bperhaps\b").unwrap();
+            static ref OOTREGEX: Regex = Regex::new(r"(?i)\bout of touch\b").unwrap();
         }
         if MANREGEX.is_match(msg.content.trim()).unwrap(){
             let emote = ctx.http.get_emoji(86542971465396224, 824895253348876298).await.expect("Error fetching emote");
@@ -43,10 +45,14 @@ impl EventHandler for Handler {
                 println!("An error occurred while reacting: {:?}", why)
             }
         }
+        if OOTREGEX.is_match(msg.content.trim()).unwrap() && Utc::now().with_timezone(&FixedOffset::west(5*3600)).format("%a") == "Thu" {
+            if let Err(why) = msg.reply(&ctx.http, "https://tenor.com/bq8xu.gif").await{
+                println!("An error occurred while reacting: {:?}", why)
+            }
+        }
     }
 
 }
-
 
 #[tokio::main]
 async fn main() {
