@@ -27,7 +27,7 @@ impl EventHandler for Handler {
                 id: emote.id,
                 name: Some(emote.name)
             };
-            if let Err(why) = msg.react(ctx.http, reaction).await{
+            if let Err(why) = msg.react(&ctx.http, reaction).await{
                 println!("An error occurred while reacting: {:?}", why)
             }
         }
@@ -39,7 +39,7 @@ impl EventHandler for Handler {
                 id: emote.id,
                 name: Some(emote.name)
             };
-            if let Err(why) = msg.react(ctx.http, reaction).await{
+            if let Err(why) = msg.react(&ctx.http, reaction).await{
                 println!("An error occurred while reacting: {:?}", why)
             }
         }
