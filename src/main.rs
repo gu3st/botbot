@@ -21,6 +21,7 @@ impl EventHandler for Handler {
             static ref MANREGEX: Regex = Regex::new(r"(?i)\bman\b").unwrap();
             static ref PERHAPSREGEX: Regex = Regex::new(r"(?i)\bperhaps\b").unwrap();
             static ref OOTREGEX: Regex = Regex::new(r"(?i)\bout of touch\b").unwrap();
+            static ref GARFIELDREGEX: Regex = Regex::new(r"(?i)\b(CamTheJackrabbit|Fredrick Cairo II|in dee car)\b").unwrap();
         }
         if MANREGEX.is_match(msg.content.trim()).unwrap(){
             let emote = ctx.http.get_emoji(86542971465396224, 824895253348876298).await.expect("Error fetching emote");
@@ -47,6 +48,11 @@ impl EventHandler for Handler {
         }
         if OOTREGEX.is_match(msg.content.trim()).unwrap() && Utc::now().with_timezone(&FixedOffset::west(5*3600)).format("%a").to_string() == "Thu" {
             if let Err(why) = msg.reply(&ctx.http, "https://tenor.com/bq8xu.gif").await{
+                println!("An error occurred while reacting: {:?}", why)
+            }
+        }
+        if GARFIELDREGEX.is_match(msg.content.trim()).unwrap() {
+            if let Err(why) = msg.reply(&ctx.http, "https://media.discordapp.net/attachments/788586181793284117/825555263867584512/image0.png").await{
                 println!("An error occurred while reacting: {:?}", why)
             }
         }
