@@ -21,7 +21,7 @@ impl EventHandler for Handler {
             static ref MANREGEX: Regex = Regex::new(r"(?i)\bman\b").unwrap();
             static ref PERHAPSREGEX: Regex = Regex::new(r"(?i)\bperhaps\b").unwrap();
             static ref OOTREGEX: Regex = Regex::new(r"(?i)\bout of touch\b").unwrap();
-            static ref GARFIELDREGEX: Regex = Regex::new(r"(?i)\b(CamTheJackrabbit|Fredrick Cairo II|in dee? car)\b").unwrap();
+            static ref GARFIELDREGEX: Regex = Regex::new(r"(?i)\b(CamTheJackrabbit|Fredrick Cairo II|in dee? car|Cam The Jackrabbit|Freddy Egypt (II|2))\b").unwrap();
         }
         if MANREGEX.is_match(msg.content.trim()).unwrap(){
             let emote = ctx.http.get_emoji(86542971465396224, 824895253348876298).await.expect("Error fetching emote");
