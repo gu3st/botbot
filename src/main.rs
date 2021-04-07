@@ -9,6 +9,7 @@ use std::env;
 use serenity::client::bridge::gateway::GatewayIntents;
 use serenity::model::guild::Emoji;
 
+const EMOTE_SERVER:u64 = 86542971465396224;
 
 struct Handler;
 
@@ -24,10 +25,9 @@ impl Handler {
 
 #[async_trait]
 impl EventHandler for Handler {
-
     async fn message(&self, ctx:Context, msg: Message){
         lazy_static! {
-            static ref EMOTE_SERVER = 86542971465396224;
+
             static ref MANREGEX: Regex = Regex::new(r"(?i)\bman\b").unwrap();
             static ref PERHAPSREGEX: Regex = Regex::new(r"(?i)\bperhaps\b").unwrap();
             static ref OOTREGEX: Regex = Regex::new(r"(?i)\bout of touch\b").unwrap();
