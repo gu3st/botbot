@@ -7,42 +7,42 @@ use lazy_static::lazy_static;
 
 use std::env;
 use serenity::client::bridge::gateway::GatewayIntents;
+use serenity::model::guild::Emoji;
 
 
 struct Handler;
 
-
+impl Handler {
+    fn reaction(&self, emote: &Emoji) -> ReactionType {
+        return ReactionType::Custom {
+            animated: false,
+            id: emote.id,
+            name: Some(String::from(&emote.name))
+        };
+    }
+}
 
 #[async_trait]
 impl EventHandler for Handler {
 
     async fn message(&self, ctx:Context, msg: Message){
         lazy_static! {
+            static ref EMOTE_SERVER = 86542971465396224
             static ref MANREGEX: Regex = Regex::new(r"(?i)\bman\b").unwrap();
             static ref PERHAPSREGEX: Regex = Regex::new(r"(?i)\bperhaps\b").unwrap();
             static ref OOTREGEX: Regex = Regex::new(r"(?i)\bout of touch\b").unwrap();
-            static ref GARFIELDREGEX: Regex = Regex::new(r"(?i)\b(CamTheJackrabbit|Fredrick Cairo II|in dee? car|Cam The Jackrabbit|Freddy Egypt (II|2))\b").unwrap();
+            static ref GARFIELDREGEX: Regex = Regex::new(r"(?i)\b(CamTheJackrabbit|Fred(?:rick)? Cairo II|in dee? car|Cam The Jackrabbit|Freddy Egypt (II|2))\b").unwrap();
         }
         if MANREGEX.is_match(msg.content.trim()).unwrap(){
-            let emote = ctx.http.get_emoji(86542971465396224, 824895253348876298).await.expect("Error fetching emote");
-            let reaction = ReactionType::Custom {
-                animated: false,
-                id: emote.id,
-                name: Some(emote.name)
-            };
-            if let Err(why) = msg.react(&ctx.http, reaction).await{
+            let emote = ctx.http.get_emoji(EMOTE_SERVER, 824895253348876298).await.expect("Error fetching emote");
+            if let Err(why) = msg.react(&ctx.http, self.reaction(&emote)).await{
                 println!("An error occurred while reacting: {:?}", why)
             }
         }
 
         if PERHAPSREGEX.is_match(msg.content.trim()).unwrap(){
-            let emote = ctx.http.get_emoji(86542971465396224, 824895866560446474).await.expect("Error fetching emote");
-            let reaction = ReactionType::Custom {
-                animated: false,
-                id: emote.id,
-                name: Some(emote.name)
-            };
-            if let Err(why) = msg.react(&ctx.http, reaction).await{
+            let emote = ctx.http.get_emoji(EMOTE_SERVER, 824895866560446474).await.expect("Error fetching emote");
+            if let Err(why) = msg.react(&ctx.http, self.reaction(&emote)).await{
                 println!("An error occurred while reacting: {:?}", why)
             }
         }
@@ -52,12 +52,12 @@ impl EventHandler for Handler {
             }
         }
         if GARFIELDREGEX.is_match(msg.content.trim()).unwrap() {
-            if let Err(why) = msg.reply(&ctx.http, "https://media.discordapp.net/attachments/788586181793284117/825555263867584512/image0.png").await{
+            let emote = ctx.http.get_emoji(EMOTE_SERVER,829165930936402000);
+            if let Err(why) = msg.react(&ctx.http, self.reaction(&emote)).await{
                 println!("An error occurred while reacting: {:?}", why)
             }
         }
     }
-
 }
 
 #[tokio::main]
