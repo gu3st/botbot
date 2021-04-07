@@ -47,12 +47,12 @@ impl EventHandler for Handler {
             }
         }
         if OOTREGEX.is_match(msg.content.trim()).unwrap() && Utc::now().with_timezone(&FixedOffset::west(5*3600)).format("%a").to_string() == "Thu" {
-            if let Err(why) = msg.reply(&ctx.http, "https://tenor.com/bq8xu.gif").await{
+            if let Err(why) = msg.reply(&ctx.http, "https://www.youtube.com/watch?v=Q8hp2IkI2es").await{
                 println!("An error occurred while reacting: {:?}", why)
             }
         }
         if GARFIELDREGEX.is_match(msg.content.trim()).unwrap() {
-            let emote = ctx.http.get_emoji(EMOTE_SERVER,829165930936402000);
+            let emote = ctx.http.get_emoji(EMOTE_SERVER,829165930936402000).await.expect("Error fetching emote");
             if let Err(why) = msg.react(&ctx.http, self.reaction(&emote)).await{
                 println!("An error occurred while reacting: {:?}", why)
             }
