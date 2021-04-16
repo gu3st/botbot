@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/manbot.iml" filepath="$PROJECT_DIR$/manbot.iml" />
+      <module fileurl="file://$PROJECT_DIR$/botbot.iml" filepath="$PROJECT_DIR$/botbot.iml" />
     </modules>
   </component>
 </project>
